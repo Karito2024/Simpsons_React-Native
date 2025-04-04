@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native'; // Hook para la navega
 import { Character } from '../types/character'; // Importa el tipo de datos Character
 import global from '../styles/global'; // Importa estilos globales
 import api from '../api/api'; // Importa la instancia de la API
-import CharacterCard from '../components/CharacerCard';
+import CharacterCard from '../components/CharacterCard';
  // Importa el componente de tarjeta de personaje
 
 

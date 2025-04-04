@@ -7,7 +7,7 @@ const DetailsScreen = ({ route }: { route: any }) => {
   return (
     <View style={styles.container}>
       <Image source={{ uri: character.image }} style={styles.image} />
-      <Text style={styles.title}>{character.title}</Text>
+      <Text>{character.title}</Text>
 
       <View style={styles.infoContainer}>
         <Text style={styles.label}>Año:</Text>
