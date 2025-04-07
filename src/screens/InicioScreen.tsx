@@ -1,39 +1,40 @@
-import React, { useEffect, useState } from 'react'; // Importa React y hooks para gestionar estado y efectos
-import { ScrollView, Text } from 'react-native'; // Importa componentes de React Native
-import { useNavigation } from '@react-navigation/native'; // Hook para la navegación
-import { Character } from '../types/character'; // Importa el tipo de datos Character
-import global from '../styles/global'; // Importa estilos globales
-import api from '../api/api'; // Importa la instancia de la API
-import CharacterCard from '../components/CharacterCard';
- // Importa el componente de tarjeta de personaje
+import React, { useEffect, useState } from 'react'; // Importa React y hooks para manejar estado y efectos
+import { ScrollView, Text } from 'react-native'; // Componentes nativos de React Native
+import { useNavigation } from '@react-navigation/native'; // Hook para navegación entre pantallas
+import { Character } from '../types/character'; // Tipo de datos para los personajes
+import global from '../styles/global'; // Estilos globales
+import api from '../api/api'; // Instancia personalizada de axios
+import CharacterCard from '../components/CharacterCard'; // Componente para mostrar un personaje
 
+export default function InicioScreen() {
+  const [characters, setCharacters] = useState<Character[]>([]); // Estado para almacenar los personajes
+  const navigation = useNavigation(); // Obtiene el objeto de navegación
 
-export default function InicioScreen(){
-    const [characters, setCharacters] = useState<Character[]>([]); // Estado para almacenar los personajes
-    const navigation = useNavigation(); // Obtiene el objeto de navegación
+  // Hook que se ejecuta al montar el componente
+  useEffect(() => {
+    // Función asíncrona para traer los personajes de la API
+    const fetchCharacter = async () => {
+      try {
+        const { data } = await api.get<Character[]>('/cartoons2D'); // Llama a la API y obtiene un array de personajes
+        setCharacters(data); // Guarda los personajes en el estado
+      } catch (error) {
+        console.error('Error al obtener personajes:', error); // En caso de error lo muestra en consola
+      }
+    };
 
-    useEffect(() => {
-        // Función asíncrona para obtener los personajes desde la API
-        const fetchCharacter = async () => {
-          const { data: { results } } = await api.get<{ results: Character[] }>('/character'); 
-          // Realiza la petición GET a la API y extrae los resultados
-    
-          setCharacters(results); // Guarda los personajes en el estado
-        };
-        fetchCharacter(); // Llama a la función cuando el componente se monta
-      }, []);
-    
-      return (
-        <ScrollView style={global.container}>
-          {/* Contenedor desplazable que usa los estilos globales */}
-    
-          <Text style={global.tittle}>Fábulas Clásicas</Text>
-          {/* Título principal de la pantalla */}
-    
-          {characters.map((c) => (
-            <CharacterCard key={c.id} character={c} navigation={navigation} />
-            // Renderiza una tarjeta por cada personaje obtenido de la API
-          ))}
-        </ScrollView>
-      );
+    fetchCharacter(); // Llama a la función de carga
+  }, []);
+
+  return (
+    <ScrollView style={global.container}>
+      {/* Contenedor con scroll y estilo global */}
+      <Text style={global.tittle}>Fábulas Clásicas</Text>
+      {/* Título de la pantalla */}
+
+      {characters.map((c) => (
+        <CharacterCard key={c.id} character={c} navigation={navigation} />
+        // Renderiza una tarjeta por cada personaje
+      ))}
+    </ScrollView>
+  );
 }

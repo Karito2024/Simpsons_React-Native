@@ -14,9 +14,9 @@ const DetailsScreen = ({ route }: { route: any }) => {
         <Text style={styles.value}>{character.year}</Text>
       </View>
 
-      {character.type ? (
+      {character.genre ? (
         <View style={styles.infoContainer}>
-          <Text style={styles.label}>Tipo:</Text>
+          <Text style={styles.label}>Género:</Text>
           <Text style={styles.value}>{character.genre}</Text>
         </View>
       ) : null}
